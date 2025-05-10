@@ -43,19 +43,27 @@ function index() {
         setDisplayText={setDisplayText}
       />
       <WarningModal visible={isOpen} onClose={() => setIsOpen(false)} />
-
-      <Button
-        mode="contained"
-        disabled={!displayText && !inputText && !selectedOption}
-        onPress={() => {
-          setDisplayText(null);
-          setSelectedOption(null);
-          setInputText("");
-          Keyboard.dismiss();
+      <View
+        style={{
+          gap: 6,
         }}
       >
-        Clear Form
-      </Button>
+        <Button
+          mode="contained"
+          disabled={!displayText && !inputText && !selectedOption}
+          onPress={() => {
+            setDisplayText(null);
+            setSelectedOption(null);
+            setInputText("");
+            Keyboard.dismiss();
+          }}
+        >
+          Clear Form
+        </Button>
+        <Button disabled={!displayText} mode="contained">
+          Save
+        </Button>
+      </View>
     </View>
   );
 }
