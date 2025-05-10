@@ -1,24 +1,40 @@
 import { DATABASE_NAME } from "@/constants/database";
-import { Stack } from "expo-router";
+import { Link, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { openDatabaseSync, SQLiteProvider } from "expo-sqlite";
-import { drizzle } from "drizzle-orm/expo-sqlite";
+import { SQLiteProvider } from "expo-sqlite";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import migrations from "../drizzle/migrations";
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import { ActivityIndicator } from "react-native-paper";
 import { db } from "@/db/db";
+import Toast from "react-native-toast-message";
+import { View } from "lucide-react-native";
 
 export default function RootLayout() {
-  const { success, error } = useMigrations(db, migrations);
+  useMigrations(db, migrations);
 
   return (
     <Suspense fallback={<ActivityIndicator size={"large"} />}>
       <SQLiteProvider databaseName={DATABASE_NAME} useSuspense>
-        <Stack>
+        <Stack
+          screenLayout={(props) => {
+            return (
+              <>
+                {props.children}
+                <Toast autoHide />
+              </>
+            );
+          }}
+        >
           <Stack.Screen
             name="index"
-            options={{ title: "Home", headerShown: true }}
+            options={{
+              title: "Home",
+              headerShown: true,
+              headerRight(props) {
+                return <Link href={"/records"}>Open</Link>;
+              },
+            }}
           />
           <Stack.Screen
             name="records/index"

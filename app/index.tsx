@@ -5,10 +5,15 @@ import Inputs from "@/components/Inputs";
 import RadionButtons from "@/components/RadioButtons";
 import WarningModal from "@/components/WarningModal";
 import { options } from "@/constants/options";
+import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
+import { useSQLiteContext } from "expo-sqlite";
 import { useState } from "react";
 import { Keyboard, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 function index() {
+  const db = useSQLiteContext();
+  useDrizzleStudio(db);
+
   const [inputText, setInputText] = useState("");
   const [selectedOption, setSelectedOption] = useState<
     (typeof options)[number] | null
@@ -59,9 +64,6 @@ function index() {
           }}
         >
           Clear Form
-        </Button>
-        <Button disabled={!displayText} mode="contained">
-          Save
         </Button>
       </View>
     </View>

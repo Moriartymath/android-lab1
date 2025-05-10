@@ -6,4 +6,4 @@ export const messages = sqliteTable("messages", {
   font_size: integer("font_size").notNull(),
 });
 
-export type Message = typeof messages.$inferSelect;
+export type MessageT = typeof messages.$inferSelect;

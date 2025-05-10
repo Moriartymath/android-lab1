@@ -1,8 +1,9 @@
+import { createMessage } from "@/actions/message";
 import { options } from "@/constants/options";
 import { FC } from "react";
 import { View } from "react-native";
 import { Button } from "react-native-paper";
-
+import Toast from "react-native-toast-message";
 interface Props {
   setDisplayText: (value: string | null) => void;
   inputText: string;
@@ -32,8 +33,11 @@ const ControlButtons: FC<Props> = ({
           flex: 1,
         }}
         onPress={() => {
-          if (selectedOption && inputText) setDisplayText(inputText);
-          else setIsOpen(true);
+          if (selectedOption && inputText) {
+            setDisplayText(inputText);
+
+            createMessage(inputText, Number.parseInt(selectedOption));
+          } else setIsOpen(true);
         }}
       >
         OK
